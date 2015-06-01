@@ -15,10 +15,19 @@ bool WindowSDL::CreateWindowAndContext(const char *name, int w, int h, bool full
     
     if (!hidden && fullscreen) {
         
-#if defined(__APPLE__)
+#if defined(__MACOSX__)
+        // #3348 - Cannot exit full screen on OSX
+        // Currently the below 'works' but only if running at native resolution
+        // HACK: Remove this and fix the issue at hand, need to be able to run at full screen and non-native resolutions
+//        SDL_DisplayMode displayMode;
+//        SDL_GetDesktopDisplayMode(0, &displayMode);
+//        
+//        w = displayMode.w;
+//        h = displayMode.h;
+        
         winFlags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
 #else
-        winFlags |= SDL_WINDOW_FULLSCREEN;
+        winFlags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
 #endif
     }
     

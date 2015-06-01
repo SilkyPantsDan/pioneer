@@ -128,6 +128,9 @@ bool EventDispatcher::Dispatch(const Event &event)
 			m_lastMousePosition = mouseButtonEvent.pos;
 
 			RefCountedPtr<Widget> target(m_baseContainer->GetWidgetAt(m_lastMousePosition));
+            
+            if (!target)
+                return false;
 
 			switch (mouseButtonEvent.action) {
 
@@ -204,7 +207,10 @@ bool EventDispatcher::Dispatch(const Event &event)
 			}
 
 			// widget directly under the mouse
-			RefCountedPtr<Widget> target(m_baseContainer->GetWidgetAt(m_lastMousePosition));
+            RefCountedPtr<Widget> target(m_baseContainer->GetWidgetAt(m_lastMousePosition));
+            
+            if (!target)
+                return false;
 
 			bool ret = false;
 			if (!target->IsDisabled() && target->IsOnTopLayer()) {
@@ -221,7 +227,11 @@ bool EventDispatcher::Dispatch(const Event &event)
 			const MouseWheelEvent mouseWheelEvent = static_cast<const MouseWheelEvent&>(event);
 			m_lastMousePosition = mouseWheelEvent.pos;
 
-			RefCountedPtr<Widget> target(m_baseContainer->GetWidgetAt(m_lastMousePosition));
+            RefCountedPtr<Widget> target(m_baseContainer->GetWidgetAt(m_lastMousePosition));
+            
+            if (!target)
+                return false;
+            
 			if (!target->IsOnTopLayer())
 				return false;
 

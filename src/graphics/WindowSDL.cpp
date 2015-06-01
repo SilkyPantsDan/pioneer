@@ -10,9 +10,18 @@
 namespace Graphics {
 
 bool WindowSDL::CreateWindowAndContext(const char *name, int w, int h, bool fullscreen, bool hidden, int samples, int depth_bits) {
+    
 	Uint32 winFlags = SDL_WINDOW_OPENGL | (hidden ? SDL_WINDOW_HIDDEN : SDL_WINDOW_SHOWN);
-	if (!hidden && fullscreen) winFlags |= SDL_WINDOW_FULLSCREEN;
-
+    
+    if (!hidden && fullscreen) {
+        
+#if defined(__APPLE__)
+        winFlags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
+#else
+        winFlags |= SDL_WINDOW_FULLSCREEN;
+#endif
+    }
+    
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
 	// cannot initialise 3.x content on OSX with anything but CORE profile
